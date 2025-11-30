@@ -1,19 +1,19 @@
-apiVersion : apps/v1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: polingpipelinesjavascriptdocker 
+  name: helloworld
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: polingpipelinesjavascriptdocker
+      app: helloworld
   template:
     metadata:
       labels:
-        app: polingpipelinesjavascriptdocker 
+        app: helloworld
     spec:
       containers:
-        - name: polingpipelinesjavascriptdocker 
-          image: polingassignment2.azurecr.io/polingpipelinesjavascriptdocker
-          ports:
-          - containerPort: 8080
+      - name: helloworld
+        image: helloworld
+        ports:
+        - containerPort: 80
