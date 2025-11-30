@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: polingpipelinesjavascriptdocker 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: polingpipelinesjavascriptdocker
+  template:
+    metadata:
+      labels:
+        app: polingpipelinesjavascriptdocker 
+    spec:
+      containers:
+        - name: polingpipelinesjavascriptdocker 
+          image: polingassignment2.azurecr.io/polingpipelinesjavascriptdocker
+          ports:
+          - containerPort: 8080
