@@ -6,9 +6,9 @@ resources:
 
 variables:
 
-  dockerRegistryServiceConnection: '<<YOUR-ACR-SERVICE-CONNECTION-ID>>'
+  dockerRegistryServiceConnection: 'a2522a85-bed8-49ba-b995-e4c49db468c1'
   imageRepository: 'helloworld'
-  containerRegistry: '<<YOUR-ACR-NAME>>.azurecr.io'
+  containerRegistry: 'polingassignment2.azurecr.io'
   dockerfilePath: 'Dockerfile'
   tag: '$(Build.BuildId)'
   vmImageName: 'ubuntu-latest'
