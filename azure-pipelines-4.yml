@@ -1,0 +1,48 @@
+trigger:
+- main
+
+pool:
+  name: Default  
+
+stages:
+- stage: Build
+  jobs:
+  - job: Build
+    displayName: 'Build & Push via Local Docker'
+    steps:
+    - checkout: self
+
+    # Build Docker image locally
+    - script: |
+        echo "Building Docker image locally..."
+        docker build -t helloworld:$(Build.BuildId) .
+      displayName: 'Local Docker Build'
+
+    # Tag + push to ACR using local Docker login
+    - script: |
+        echo "Tag and push image to ACR..."
+        docker tag helloworld:$(Build.BuildId) polingassignment2.azurecr.io/helloworld:$(Build.BuildId)
+        docker push polingassignment2.azurecr.io/helloworld:$(Build.BuildId)
+      displayName: 'Local Docker Push'
+
+
+- stage: Deploy
+  dependsOn: Build
+  jobs:
+  - job: Deploy
+    displayName: 'Deploy using local kubectl'
+    steps:
+    - checkout: self
+
+    # Update deployment yaml to use the new BuildId tag
+    - script: |
+        echo "Updating deployment..."
+        kubectl set image deployment/helloworld helloworld=polingassignment2.azurecr.io/helloworld:$(Build.BuildId)
+      displayName: 'Update Deployment Image'
+
+    # Ensure service and deployment exist
+    - script: |
+        echo "Applying manifests..."
+        kubectl apply -f manifests/deployment.yml
+        kubectl apply -f manifests/service.yml
+      displayName: 'kubectl apply'
